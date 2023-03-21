@@ -1,0 +1,132 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>new user translations</h1>
+
+<div>
+  <%= link_to 'back to book', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], page: 1) %>
+</div>
+
+<%= form_with(model: @new_user_translation, url: add_user_translation_path, id: 'new_user_translation_form') do |form| %>
+  <% if @new_user_translation.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@new_user_translation.errors.count, "error") %> prohibited this translation from being saved:</h2>
+      <ul>
+        <% @new_user_translation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <fieldset id='new_native_word'>
+      <legend>Native language words</legend>
+        <button class="favorite styled"
+          type="button"
+          onclick="addNativeWord()">
+          Add
+        </button>
+        <br>
+        <div id='native_word_0'>
+          <%= form.text_field 'nativeExpression', placeholder: 'native expression', multiple: true, required: true %>
+          <%= form.text_field 'nativeTranscription', placeholder: 'native transcription', multiple: true, required: true %>
+          <%= form.hidden_field 'nativeLanguage', value: @user_native_language[:id] %>
+          <%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %>
+          <a href="JavaScript:removeWord('native_word_0')">remove word</a>
+        </div>
+    </fieldset>
+   <fieldset>
+    <legend>Words to learn</legend>
+        <button class="favorite styled"
+          type="button"
+          onclick="addLearnedWord()">
+          Add
+        </button>
+        <div id='new_word_to_learn_0'>
+          <%= form.text_field 'learnedExpression', placeholder: 'learned expression', multiple: true, required: true %>
+          <%= form.text_field 'learnedTranscription', placeholder: 'learned transcription', multiple: true, required: true %>
+          <%= form.hidden_field 'learnedLanguage', value: @user_to_learn_language[:id]%>
+          <%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %>
+          <a href="JavaScript:removeWord('new_word_to_learn_0')">remove word</a>
+        </div>
+      <div id='new_word_to_learn'></div>
+    </fieldset>
+
+  <%= form.hidden_field :book_id, value: params[:book_id] %>
+  <%= form.hidden_field :user_id, value: params[:user_id] %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<script>
+
+  function addLearnedWord() {
+
+    let endingId = null
+    endingId = randomId()
+    newDivElement = document.createElement('div');
+    newDivElement.setAttribute("id", `new_word_${endingId}`);
+
+    let form  = document.getElementById('new_user_translation_form')
+    form.prepend(newDivElement)
+
+    const newWord =`<div id="new_word_to_learn_${endingId}">`
+    +'<input type="text" name="translation[learnedExpression][]" placeholder="learned expression" multiple="multiple" id="translation_word" required>'
+    +' '
+    +'<input type="text" name="translation[learnedTranscription][]" placeholder="learned transcription", multiple="multiple" id="translation_word" required>'
+    +'  '
+    +' <input type="hidden" name="learnedLanguage" value="<%= @user_to_learn_language[:id]%>">'
+    +'<%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %>'
+    + ''
+    +'</select>'
+    +' '
+    +`<a href="JavaScript:removeWord('new_word_to_learn_${endingId}')">remove word</a>`
+    +'</div>'
+
+    // It is works good
+    document.getElementById("new_word_to_learn").insertAdjacentHTML("beforeend", newWord)
+  }
+
+  function addNativeWord() {
+    let endingId = null
+    endingId = randomId()
+
+    newDivElement = document.createElement('div');
+    newDivElement.setAttribute("id", `new_word_${endingId}`);
+
+    let form  = document.getElementById('new_user_translation_form')
+    form.prepend(newDivElement)
+
+    const newWord =`<div id="native_word_${endingId}">`
+    +'<input type="text" name="translation[nativeExpression][]" placeholder="native expression" multiple="multiple" id="translation_word" required>'
+    +'  '
+    +'<input type="text" name="translation[nativeTranscription][]" placeholder="native transcription" multiple="multiple" id="translation_word" required>'
+    +'  '
+    +' <input type="hidden" name="nativeLanguage" value="<%= @user_native_language[:id]%>">'
+    +'<%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %>'
+    +'</select>'
+    +' '
+    +`<a href="JavaScript:removeWord('native_word_${endingId}')">remove word</a>`
+    +'</div>'
+
+    // It is works good
+    document.getElementById("new_native_word").insertAdjacentHTML("beforeend", newWord)
+  }
+
+  function removeWord(id) {
+    // console.log("id---", id)
+    let element = document.getElementById(id)
+    // console.log("element---", element)
+    element.remove()
+  }
+
+  function findTranslation(){
+    // console.log('message')
+  }
+
+  function randomId(){
+    return Math.floor(Math.random() * 1000000000000000000000000);
+  }
+
+</script>

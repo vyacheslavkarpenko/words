@@ -1,0 +1,22 @@
+<div id="<%= dom_id article %>">
+  <%# turbo_stream added %>
+  <%= turbo_frame_tag dom_id article do %>
+    <p>
+      <strong>Title:</strong>
+      <%= article.title %>
+    </p>
+
+    <p>
+      <strong>Content:</strong>
+      <%= article.content %>
+    </p>
+
+    <p>
+      <%= link_to "Show this article", article %>
+    </p>
+
+    <p>
+      <%= button_to "Delete", article_path(article), method: :delete%>
+    </p>
+  <% end %>
+</div>

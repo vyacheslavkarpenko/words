@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<div>
+  <b>Name</b> <%=  @book.name %>
+</div>
+<div>
+  <b>Multi language</b> <%= @book.is_multi_language %>
+</div>
+<%# binding.pry %>
+
+<div>
+  <%= link_to "Edit this book", edit_books_path(@book) %> |
+  <%= link_to "Back to books", user_books_path(user_id: @current_user.id) %>
+
+  <%= button_to "Destroy this book", destroy_books_path(user_id: @book.user_id, books_id: @book.id), data: { confirm: 'Are you sure?' }, method: :delete, remote: true %>
+</div>

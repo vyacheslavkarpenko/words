@@ -1,0 +1,71 @@
+<%= turbo_stream.replace "translation_#{translation[:id]}", partial: "translation", locals: { post: translation } %>
+<div id="<%= dom_id translation[:id] %>">
+  <%# turbo_stream added %>
+  <%= turbo_frame_tag dom_id translation[:id] do %>
+    <tr >
+      <td class="book-table">
+        <table>
+          <% translation[:native_words].each do |native_words| %>
+            <tr>
+              <td
+                id="native-expression-<%= native_words[:id] %>"
+                onclick="toggleElement({ neatId: '#native-expression-<%= native_words[:id] %>' })"
+                title="Click here to hide or show !">
+                <%= native_words[:expression] %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+      <td class="book-table">
+        <table>
+          <% translation[:native_words].each do |native_words| %>
+            <tr>
+              <td
+                id="native-transcription-<%= native_words[:id] %>"
+                onclick="toggleElement({ neatId: '#native-transcription-<%= native_words[:id] %>' })"
+                title="Click here to hide or show !">
+                <%= native_words[:transcription] %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+      <td class="book-table">
+        <table>
+          <% translation[:to_learn_words].each do |to_learn_words| %>
+            <tr>
+              <td
+                id="to-learn-expression-<%= to_learn_words[:id] %>"
+                onclick="toggleElement({ neatId: '#to-learn-expression-<%= to_learn_words[:id] %>' })"
+                title="Click here to hide or show !">
+                <%= to_learn_words[:expression] %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+      <td class="book-table">
+        <table>
+          <% translation[:to_learn_words].each do |to_learn_words| %>
+            <tr>
+              <td
+                id="to-learn-transcription-<%= to_learn_words[:id] %>"
+                onclick="toggleElement({ neatId: '#to-learn-transcription-<%= to_learn_words[:id] %>' })"
+                title="Click here to hide or show !">
+                <%= to_learn_words[:transcription] %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+      <td class="book-table">
+        <%= button_to 'mark as need to learned', change_learned_status_path(book_id: params[:book_id], translation_id: translation[:id], status: false ), method: :patch if params[:learned] %>
+        <%= button_to 'mark as learned', change_learned_status_path(book_id: params[:book_id], translation_id: translation[:id], status: true ), method: :patch unless params[:learned] %>
+        <%= link_to 'remove translation', remove_from_user_book_path(book_id: params[:book_id], translation_id: translation[:id]), remote: true, method: :delete, data: { confirm: 'Are you sure?' }  %>
+        <br>
+        <%= link_to 'edit translation',translations_edit_path(user_id: @current_user.id, book_id: params[:book_id], translation_id: translation[:id]) %>
+      </td>
+    </tr>
+  <% end %>
+</div>

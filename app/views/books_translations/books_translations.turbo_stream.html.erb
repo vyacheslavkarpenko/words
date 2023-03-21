@@ -1,0 +1,82 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>This is <%= @book_name %> book</h1>
+<%# binding.pry %>
+<div>
+ | <%= link_to 'Back to books list', user_books_path(user_id: @current_user.id) %> |
+  <%= link_to 'add user translation', new_user_translation_path(user_id: params[:user_id], book_id: params[:book_id]) %> |
+  <%= link_to 'need to repeat', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], learned: true, page: 1 ) if params[:learned] == 'false' %>
+  <%= link_to 'need to learn', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], learned: false, page: 1) if params[:learned] == 'true' %> |
+</div>
+
+<%# "Contain #{@count} records and #{@pages} pages" %>
+
+<div class="education-actions">
+  <p>use hide/show actions  or <button onclick="toggleElement({ idsForRegex: ['native-expression-', 'native-transcription-', 'to-learn-expression-', 'to-learn-transcription-'], reset: true })"> reset all </button>
+    <div>
+      <p>native
+        <button onclick="toggleElement({ idsForRegex: ['native-expression-', 'native-transcription-'] })"> all </button>
+        <button onclick="toggleElement({ idsForRegex: ['native-expression-'] })">expression</button>
+        <button onclick="toggleElement({ idsForRegex: ['native-transcription-'] })">transcription</button>
+      </p>
+    </div>
+    <div>
+      <p>to learn
+        <button onclick="toggleElement({ idsForRegex: ['to-learn-expression-', 'to-learn-transcription-'] })">all</button>
+        <button onclick="toggleElement({ idsForRegex: ['to-learn-expression-'] })">expression</button>
+        <button onclick="toggleElement({ idsForRegex: ['to-learn-transcription-'] })">transcription</button>
+      </p>
+    </div>
+  </p>
+</div>
+
+
+  <%= if params[:page].to_i >= 2 then link_to 'back', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], learned: params[:learned], page: (params[:page].to_i - 1)) else 'back' end %>
+  <%= if params[:page].to_i <= @pages - 1 then link_to 'next', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], learned: params[:learned], page: (params[:page].to_i + 1)) else 'next' end %>
+
+<div>
+  <div id="books_translations" >
+    <table class="book-table">
+      <thead>
+        <tr>
+          <th class="book-table">Native words</th>
+          <th class="book-table">Native word transcriptions</th>
+          <th class="book-table">Words to learn</th>
+          <th class="book-table">Word to learn transcriptions</th>
+          <th class="book-table">Translation actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'books_translation', collection: @books_translations %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function toggleElement(params = { idsForRegex: null, neatId: null, reset: false }) {
+    const { idsForRegex, neatId, reset } = params
+
+    let htmlElements = ''
+
+    if ((idsForRegex !== null) && (idsForRegex !== undefined)) {
+      htmlElements = document.querySelectorAll(idsForRegex.map(e => `[id*="${e}"]`))
+    } else {
+      htmlElements = document.querySelectorAll(neatId)
+    }
+
+    htmlElements.forEach( htmlElement => {
+      const currentColor = htmlElement.style.backgroundColor
+      if (reset) {
+        htmlElement.style.backgroundColor = 'white'
+        htmlElement.style.color = 'black'
+      } else if (currentColor == 'red') {
+        htmlElement.style.backgroundColor = 'white'
+        htmlElement.style.color = 'black'
+      } else {
+        htmlElement.style.backgroundColor = 'red'
+        htmlElement.style.color = 'red'
+      }
+    })
+  }
+</script>

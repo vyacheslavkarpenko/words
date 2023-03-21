@@ -1,0 +1,146 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>current book is <%= @book_name %></h1>
+html
+
+<div>
+ | <%= link_to 'Back to books list', user_books_path(user_id: @current_user.id) %> |
+  <%= link_to 'add user translation', new_user_translation_path(user_id: params[:user_id], book_id: params[:book_id]) %> |
+  <%= link_to 'need to repeat', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], learned: true, page: 1 ) unless params[:learned] %>
+  <%= link_to 'need to learn', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], page: 1) if params[:learned] %> |
+</div>
+
+<div class="education-actions">
+  <p>use hide/show actions  or <button onclick="toggleElement({ idsForRegex: ['native-expression-', 'native-transcription-', 'to-learn-expression-', 'to-learn-transcription-'], reset: true })"> reset all </button>
+    <div>
+      <p>native
+        <button onclick="toggleElement({ idsForRegex: ['native-expression-', 'native-transcription-'] })"> all </button>
+        <button onclick="toggleElement({ idsForRegex: ['native-expression-'] })">expression</button>
+        <button onclick="toggleElement({ idsForRegex: ['native-transcription-'] })">transcription</button>
+      </p>
+    </div>
+    <div>
+      <p>to learn
+        <button onclick="toggleElement({ idsForRegex: ['to-learn-expression-', 'to-learn-transcription-'] })">all</button>
+        <button onclick="toggleElement({ idsForRegex: ['to-learn-expression-'] })">expression</button>
+        <button onclick="toggleElement({ idsForRegex: ['to-learn-transcription-'] })">transcription</button>
+      </p>
+    </div>
+  </p>
+</div>
+<table class="book-table">
+  <thead>
+    <tr>
+      <th class="book-table">Native words</th>
+      <th class="book-table">Native word transcriptions</th>
+      <th class="book-table">Words to learn</th>
+      <th class="book-table">Word to learn transcriptions</th>
+      <th class="book-table">Translation actions</th>
+    </tr>
+  </thead>
+    <%# binding.pry %>
+  <tbody>
+  <% @translations.each do |translation| %>
+      <%# turbo_stream added %>
+        <tr id="translation-<%= translation[:id].to_s %>">
+          <td class="book-table">
+            <table>
+              <% translation[:native_words].each do |native_words| %>
+                <tr>
+                  <td
+                    id="native-expression-<%= native_words[:id] %>"
+                    onclick="toggleElement({ neatId: '#native-expression-<%= native_words[:id] %>' })"
+                    title="Click here to hide or show !">
+                    <%= native_words[:expression] %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+          <td class="book-table">
+            <table>
+              <% translation[:native_words].each do |native_words| %>
+                <tr>
+                  <td
+                    id="native-transcription-<%= native_words[:id] %>"
+                    onclick="toggleElement({ neatId: '#native-transcription-<%= native_words[:id] %>' })"
+                    title="Click here to hide or show !">
+                    <%= native_words[:transcription] %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+          <td class="book-table">
+            <table>
+              <% translation[:to_learn_words].each do |to_learn_words| %>
+                <tr>
+                  <td
+                    id="to-learn-expression-<%= to_learn_words[:id] %>"
+                    onclick="toggleElement({ neatId: '#to-learn-expression-<%= to_learn_words[:id] %>' })"
+                    title="Click here to hide or show !">
+                    <%= to_learn_words[:expression] %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+          <td class="book-table">
+            <table>
+              <% translation[:to_learn_words].each do |to_learn_words| %>
+                <tr>
+                  <td
+                    id="to-learn-transcription-<%= to_learn_words[:id] %>"
+                    onclick="toggleElement({ neatId: '#to-learn-transcription-<%= to_learn_words[:id] %>' })"
+                    title="Click here to hide or show !">
+                    <%= to_learn_words[:transcription] %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+          <td class="book-table">
+            <%= button_to 'mark as need to learned', change_learned_status_path(book_id: params[:book_id], translation_id: translation[:id], status: false ), method: :put if params[:learned] %>
+            <%= button_to 'mark as learned', change_learned_status_path(book_id: params[:book_id], translation_id: translation[:id], status: true ), method: :put unless params[:learned] %>
+            <%= button_to 'remove translation', remove_from_user_book_path(book_id: params[:book_id], translation_id: translation[:id]), method: :delete, data: { confirm: 'Are you sure?' }  %>
+            <%= link_to 'edit translation',translations_edit_path(user_id: @current_user.id, book_id: params[:book_id], translation_id: translation[:id]) %>
+          </td>
+        </tr>
+
+  <% end %>
+      </tbody>
+</table>
+
+  <%= link_to 'back', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], page: (params[:page].to_i - 1)) if params[:page].to_i >= 2%>
+  <%= link_to 'next', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], page: (params[:page].to_i + 1)) if params[:page].to_i <= @pages - 1 %>
+<br>
+  <%= @count %> number of records
+<br>
+  <%= @pages %> number of pages
+<script>
+  function toggleElement(params = { idsForRegex: null, neatId: null, reset: false }) {
+    const { idsForRegex, neatId, reset } = params
+
+    let htmlElements = ''
+
+    if ((idsForRegex !== null) && (idsForRegex !== undefined)) {
+      htmlElements = document.querySelectorAll(idsForRegex.map(e => `[id*="${e}"]`))
+    } else {
+      htmlElements = document.querySelectorAll(neatId)
+    }
+
+    htmlElements.forEach( htmlElement => {
+      const currentColor = htmlElement.style.backgroundColor
+      if (reset) {
+        htmlElement.style.backgroundColor = 'white'
+        htmlElement.style.color = 'black'
+      } else if (currentColor == 'red') {
+        htmlElement.style.backgroundColor = 'white'
+        htmlElement.style.color = 'black'
+      } else {
+        htmlElement.style.backgroundColor = 'red'
+        htmlElement.style.color = 'red'
+      }
+    })
+  }
+</script>

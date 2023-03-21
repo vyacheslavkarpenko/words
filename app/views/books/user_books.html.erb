@@ -1,0 +1,23 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>user books</h1>
+
+<%= link_to 'ADD BOOK', new_boks_path(user_id: @current_user._id)%>
+
+<%# <div id="user_book"> %>
+  <%# <ul> %>
+    <%# @user_books.each do |user_book| %>
+    <%# <li> %>
+      <%# link_to user_book[:name], books_translations_path(user_id: @current_user._id, book_id: user_book.id, learned: false, page: 1)%>
+      <%# link_to user_book[:name], user_translations_path(user_id: @current_user._id, book_id: user_book.id)%>
+      <%# link_to 'about book', show_boks_path(user_id: @current_user._id, books_id: user_book.id)%>
+      <%# button_to "Destroy this book", destroy_books_path(user_id: user_book.user_id, books_id: user_book.id), data: { confirm: 'Are you sure?' }, method: :delete %>
+    <%# </li> %>
+    <%# end %>
+  <%# </ul> %>
+<%# </div> %>
+
+<%# приховувати книги для іншої мови? %>
+<ul class='books-ul'>
+  <%= render 'book_tree', books: @books %>
+</ul>

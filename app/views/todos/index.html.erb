@@ -1,0 +1,13 @@
+<div>
+  <div>
+    <h1>Turbo Todos</h1>
+  </div>
+
+  <%= render "form", todo: Todo.new %>
+
+  <%# turbo_stream_from "todos" %>
+  <div id="todos" > 
+  <%# important id todos %>
+    <%= render @todos %>
+  </div>
+</div>

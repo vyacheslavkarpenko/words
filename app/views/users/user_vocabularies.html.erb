@@ -1,0 +1,37 @@
+<h3>Languages pairs</h3>
+<br>
+<% @user_vocabularies.each do |vocabulary| %>
+  <%= form_with(model: @current_account, url: update_account_path(account_id: @current_account),) do |form| %>
+    <div>
+      <b>Native</b>
+      <%= vocabulary.first[:detailed_attributes][:name] %>
+      <%= image_tag(vocabulary.first[:detailed_attributes][:icon], size: "32x20", alt: "Language icon") %>
+      <%= form.hidden_field 'nativeLanguage',  value: vocabulary.first[:id] %>
+      <b>To learn</b>
+      <%# binding.pry %>
+      <%= vocabulary.second[:detailed_attributes][:name] %>
+      <%= image_tag(vocabulary.second[:detailed_attributes][:icon], size: "32x20", alt: "Language icon") %>
+      <%= form.hidden_field 'learnedLanguage', value: vocabulary.second[:id] %>
+      <%= form.hidden_field :translations_per_page, value: @current_account.translations_per_page %>
+      <%= form.submit 'Set to account' %>
+    </div>
+  <% end %>
+  <%= form_with(model: @current_account, url: update_account_path(account_id: @current_account),) do |form| %>
+    <div>
+      <b>Native</b>
+      <%= vocabulary.second[:detailed_attributes][:name] %>
+      <%= image_tag(vocabulary.second[:detailed_attributes][:icon], size: "32x20", alt: "Language icon") %>
+      <%= form.hidden_field 'nativeLanguage',  value: vocabulary.second[:id] %>
+      <b>To learn</b>
+      <%= vocabulary.first[:detailed_attributes][:name] %>
+      <%= image_tag(vocabulary.first[:detailed_attributes][:icon], size: "32x20", alt: "Language icon") %>
+      <%= form.hidden_field 'learnedLanguage', value: vocabulary.first[:id] %>
+      <%= form.hidden_field :translations_per_page, value: @current_account.translations_per_page %>
+      <%= form.submit 'Set to account'%>
+    </div>
+  <% end %>
+  <br>
+<% end%>
+<%# баг із мовами %>
+
+

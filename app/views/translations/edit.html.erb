@@ -1,0 +1,137 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Edit translations</h1>
+
+<div>
+  <%= link_to 'back to book', books_translations_path(user_id: params[:user_id], book_id: params[:book_id], learned: false, page: 1) %>
+</div>
+<%= form_with(
+  model: @translation,
+  url: translations_update_path(params[:user_id], params[:book_id], translation_id: @translation.id ),
+  id: 'edit_user_translation_form',
+  method: :put
+  ) do |form| %>
+
+    <% if @translation.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@translation.errors.count, "error") %> prohibited this translation from being saved:</h2>
+
+      <ul>
+        <% @translation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<%# binding.pry %>
+    <fieldset id='new_native_word'>
+      <legend>Native language words</legend>
+        <button class="favorite styled"
+          type="button"
+          onclick="addWord('new_native_word', 'native_word', '<%= @user_native_language[:id] %>', '<%= @user_native_language[:name] %>')">
+          Add
+        </button>
+        <br>
+        <% @separated_words[:native].each do |word|%>
+        <%# binding.pry %>
+          <div id=<%= "native_word_#{word.id}" %>>
+            <%= form.text_field word.id, value: word.expression, multiple: true, required: true %>
+            <%= form.text_field word.id, value: word.transcription, multiple: true, required: true %>
+            <%= form.hidden_field word.id, value: @user_native_language[:id], multiple: true, required: true %>
+            <%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %>
+            <%=
+              link_to 'remove exists',
+              word_destroy_path(params[:user_id], params[:book_id], translation_id: word.translation_id, word_id: word.id ),
+              onclick: "removeWord('native_word_#{word.id}')",
+              data: {confirm: "You sure?", remote: true, turbo_method: :delete }
+            %>
+          </div>
+        <% end %>
+        <div id='new_native_word'></div>
+    </fieldset>
+   <fieldset>
+    <legend>Words to learn</legend>
+      <button class="favorite styled"
+        type="button"
+        onclick="addWord('new_word_to_learn', 'word_to_learn', '<%= @user_to_learn_language[:id] %>', '<%= @user_to_learn_language[:name] %>')">
+        Add
+      </button>
+      <% @separated_words[:to_learn].each do |word|%>
+        <div id=<%= "word_to_learn_#{word.id}" %>>
+          <%= form.text_field word.id, value: word.expression, multiple: true, required: true %>
+          <%= form.text_field word.id, value: word.transcription, multiple: true, required: true %>
+          <%= form.hidden_field word.id, value: @user_to_learn_language[:id], multiple: true, required: true %>
+          <%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %>
+          <%=
+            link_to 'remove exists',
+            word_destroy_path(params[:user_id], params[:book_id], translation_id: word.translation_id, word_id: word.id ),
+            onclick: "removeWord('word_to_learn_#{word.id}')",
+            data: {confirm: "You sure?", remote: true, turbo_method: :delete }
+          %>
+        </div>
+      <% end %>
+      <div id='new_word_to_learn'></div>
+    </fieldset>
+  <div>
+    <%= form.check_box :redirect_ater_translation_update, checked: @is_need_redirect_ater_translation_update %> redirect to books ater translation update
+  </div>
+
+  <%# Attention!!! After add hidden field also need to add this field to keys_for_delete array in TranslationsController %>
+  <%= form.hidden_field :book_id, value: params[:book_id] %>
+  <%= form.hidden_field :user_id, value: params[:user_id] %>
+  <%= form.hidden_field :learned,  value: params[:learned] %>
+  <%= form.hidden_field :page,    value: params[:page] %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<script>
+  function addWord(parentId, type, languageId, languageName) {
+    let endingId = null
+    endingId = randomId()
+
+    // console.log(endingId, 'endingId')
+    // console.log(parentId, 'parentId')
+    // console.log(type, 'type')
+    // console.log(languageId, 'languageId')
+    // console.log(languageName, 'languageName')
+
+    if (type == 'native_word') {
+      image = '<%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %>'
+    }
+    else if (type == 'word_to_learn'){
+      image = '<%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %>'
+    }
+
+    const removeAddedWordLink = `<button onclick="removeWord('new_${type}_${endingId}')">remove new</button>`
+
+    const newWord =`<div id="new_${type}_${endingId}">`
+    +`<input type="text" name="translation[${endingId}][]" placeholder="learned expression" multiple="multiple" id="translation_word" required>`
+    +' '
+    +`<input type="text" name="translation[${endingId}][]" placeholder="learned transcription" multiple="multiple" id="translation_word" required>`
+    +' '
+    +`<input type="hidden" name="translation[${endingId}][]" value="${languageId}"  multiple="multiple" id="translation_word" required>`
+    + languageName
+    +' '
+    + image
+    +' '
+    + removeAddedWordLink
+    +'</div>'
+
+    // It is works good
+    return  document.getElementById(`new_${type}`).insertAdjacentHTML("beforeend", newWord)
+  }
+
+  function removeWord(id) {
+    // console.log("id---", id)
+    let element = document.getElementById(id)
+    // console.log("element---", element)
+    element.remove()
+  }
+
+  function randomId(){
+    return Math.floor(Math.random() * 1000000000000000000000000);
+  }
+</script>

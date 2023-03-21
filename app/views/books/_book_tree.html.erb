@@ -1,0 +1,12 @@
+
+<% books.each do |book| %>
+  <li id=<%= book[:id]%> >
+    <%= link_to book[:name], books_translations_path(user_id: @current_user._id, book_id: book.id, learned: false, page: 1), class: 'book-name'%>
+    <%= link_to 'about book', show_boks_path(user_id: @current_user._id, books_id: book.id), class: 'book-action'%>
+    <% if book[:children].size > 0 %>
+      <ul class='books-ul'>
+        <%= render 'book_tree', books: book[:children] %>
+      </ul>
+    <% end %>
+  </li>
+<% end %>

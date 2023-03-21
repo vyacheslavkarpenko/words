@@ -1,0 +1,33 @@
+english_usa:
+  name: 'English USA'
+  icon: 'icons/languages/usa-80.png'
+english_great_britain:
+  name: 'English Great Britain'
+  icon: 'icons/languages/great-britain-80.png'
+ukrainian:
+  name: 'Ukrainian'
+  icon: 'icons/languages/ukraine-80.png'
+russian:
+  name: 'Russian'
+  icon: 'icons/languages/russian-federation-80.png'
+germanian:
+  name: 'Germanian'
+  icon: 'icons/languages/germany-80.png'
+poland:
+  name: 'Poland'
+  icon: 'icons/languages/poland-80.png'
+# bidlo:
+#   name: 'Bidlo'
+#   icon: 'bidloIcon'
+# bidlo2:
+#   name: 'Bidlo2'
+#   icon: 'bidloIcon2'
+# germanian1:
+#   name: 'Germanian'
+#   icon: ''
+# germanian2:
+#   name: 'Germanian'
+#   icon: ''
+# germanian3:
+#   name: 'Germanian11111111111111111111111111111111111111111'
+#   icon: ''

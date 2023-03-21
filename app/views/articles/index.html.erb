@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Articles</h1>
+
+<%# turbo_stream added %>
+<%= turbo_stream_from "articles"  %>
+<div id="articles">
+  <%= render @articles %>
+</div>
+
+<%= link_to "New article", new_article_path %>

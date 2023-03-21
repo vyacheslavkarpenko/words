@@ -1,0 +1,22 @@
+<h3>Account languages</h3>
+
+<h4>Native language</h4>
+<%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %>
+
+<h4>Learned language</h4>
+<%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %>
+
+<h4>Redirect ater translation update</h4>
+<%= @is_need_redirect_ater_translation_update ? 'Redirect to books turned on!' : 'No redirection after update!' %>
+
+<h4> Number of translations record per page.</h4>
+<%= @current_account.translations_per_page %>
+
+<br>
+<br>
+<%= link_to 'edit account', edit_account_path(user_id: @current_user, account_id: @current_account)%>
+<br>
+<%= link_to "back to books", user_books_path(user_id: @current_user.id) %>
+<br>
+
+need to create accoun at  user init

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Words</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+<%# added for turbo %>
+    <%# stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%#  javascript_importmap_tags %>
+
+  </head>
+
+  <body class="container mx-auto px-4">
+      <%= link_to "sign out", sign_out_path if session[:email] %>
+      <%- if @current_user %>
+        <div>
+          | Email: <%= @current_user.email %> |
+          <%= link_to "Need to do", todos_path%> |
+          <%= link_to "Articles", articles_path%> |
+          <%= link_to "Roadmap", roadmap_path%> |
+          <%= link_to "Books", user_books_path(user_id: @current_user.id) %> |
+          <%= link_to "Account", show_account_path(user_id: @current_user, account_id: @current_account)%> |
+          <%= link_to "Vocabularies", user_vocabularies_path(user_id: @current_user)%> |
+          <b>native language:</b> <%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %> |
+          <b>to learn language:</b> <%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %> |
+        </div>
+      <%- end %>
+    <%= yield %>
+  </body>
+</html>
+

@@ -1,0 +1,46 @@
+edit
+<br>
+<%= link_to "back to books", user_books_path(user_id: @current_user.id) %>
+<br>
+<%= link_to "back to account", show_account_path(user_id: @current_user, account_id: @current_account)%>
+<br>
+
+<%= form_with(model: @current_account, url: update_account_path,) do |form| %>
+  <% if @account.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@account.errors.count, "error") %> prohibited this translation from being saved:</h2>
+
+      <ul>
+        <% @account.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <br>
+    <fieldset>
+      <legend>Native language</legend>
+        <div>
+          <%= form.select 'nativeLanguage', @languages.map{|language| [language[:name], language[:id]] }, selected: @user_native_language[:id], required: true%>
+        </div>
+    </fieldset>
+   <fieldset>
+    <legend>Language to learn</legend>
+        <div>
+          <%= form.select 'learnedLanguage', @languages.map{|language| [language[:name], language[:id]] }, selected: @user_to_learn_language[:id], required: true%>
+        </div>
+    </fieldset>
+    <br>
+Redirections
+  <div>
+    <%= form.check_box :redirect_ater_translation_update, checked: true %> redirect to books ater translation update
+  </div>
+  <br>
+Paginations
+  <div>
+    <%= form.text_field :translations_per_page, value: @current_account.translations_per_page %> Number of translations record per page.
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
