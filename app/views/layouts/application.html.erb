@@ -29,6 +29,7 @@
           <%= link_to "Vocabularies", user_vocabularies_path(user_id: @current_user)%> |
           <b>native language:</b> <%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %> |
           <b>to learn language:</b> <%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %> |
+          <%= @version %>
         </div>
       <%- end %>
     <%= yield %>

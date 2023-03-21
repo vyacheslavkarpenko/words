@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :languages
   before_action :current_account
   before_action :user_to_learn_language, :user_native_language, :is_need_redirect_ater_translation_update?
+  before_action :version
 
   def current_user
     # binding.pry
@@ -41,6 +42,9 @@ class ApplicationController < ActionController::Base
     @is_need_redirect_ater_translation_update ||= current_account&.redirect_ater_translation_update
   end
 
+  def version
+    @version = 'Version-1.0.0'
+  end
   private
 
   def check_registration
