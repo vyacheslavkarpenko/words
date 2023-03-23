@@ -24,31 +24,6 @@
     </div>
   <% end %>
 <%# binding.pry %>
-    <fieldset id='new_native_word'>
-      <legend>Native language words</legend>
-        <button class="favorite styled"
-          type="button"
-          onclick="addWord('new_native_word', 'native_word', '<%= @user_native_language[:id] %>', '<%= @user_native_language[:name] %>')">
-          Add
-        </button>
-        <br>
-        <% @separated_words[:native].each do |word|%>
-        <%# binding.pry %>
-          <div id=<%= "native_word_#{word.id}" %>>
-            <%= form.text_field word.id, value: word.expression, multiple: true, required: true %>
-            <%= form.text_field word.id, value: word.transcription, multiple: true, required: true %>
-            <%= form.hidden_field word.id, value: @user_native_language[:id], multiple: true, required: true %>
-            <%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %>
-            <%=
-              link_to 'remove exists',
-              word_destroy_path(params[:user_id], params[:book_id], translation_id: word.translation_id, word_id: word.id ),
-              onclick: "removeWord('native_word_#{word.id}')",
-              data: {confirm: "You sure?", remote: true, turbo_method: :delete }
-            %>
-          </div>
-        <% end %>
-        <div id='new_native_word'></div>
-    </fieldset>
    <fieldset>
     <legend>Words to learn</legend>
       <button class="favorite styled"
@@ -73,6 +48,31 @@
       <div id='new_word_to_learn'></div>
     </fieldset>
   <div>
+      <fieldset id='new_native_word'>
+      <legend>Native language words</legend>
+        <button class="favorite styled"
+          type="button"
+          onclick="addWord('new_native_word', 'native_word', '<%= @user_native_language[:id] %>', '<%= @user_native_language[:name] %>')">
+          Add
+        </button>
+        <br>
+        <% @separated_words[:native].each do |word|%>
+        <%# binding.pry %>
+          <div id=<%= "native_word_#{word.id}" %>>
+            <%= form.text_field word.id, value: word.expression, multiple: true, required: true %>
+            <%= form.text_field word.id, value: word.transcription, multiple: true, required: true %>
+            <%= form.hidden_field word.id, value: @user_native_language[:id], multiple: true, required: true %>
+            <%= @user_native_language[:name]%> <%= image_tag(@user_native_language[:icon], size: "32x20", alt: "Language icon") %>
+            <%=
+              link_to 'remove exists',
+              word_destroy_path(params[:user_id], params[:book_id], translation_id: word.translation_id, word_id: word.id ),
+              onclick: "removeWord('native_word_#{word.id}')",
+              data: {confirm: "You sure?", remote: true, turbo_method: :delete }
+            %>
+          </div>
+        <% end %>
+        <div id='new_native_word'></div>
+    </fieldset>
     <%= form.check_box :redirect_ater_translation_update, checked: @is_need_redirect_ater_translation_update %> redirect to books ater translation update
   </div>
 

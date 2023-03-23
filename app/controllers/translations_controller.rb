@@ -126,6 +126,7 @@ class TranslationsController < ApplicationController
 
   # PATCH/PUT /translations/1 or /translations/1.json
   def update
+    # binding.pry
     redirect_path = if params[:translation][:redirect_ater_translation_update] == '1'
       # binding.pry
       books_translations_path(user_id: params[:translation][:user_id], book_id: params[:translation][:book_id], learned: params[:translation][:learned], page: params[:translation][:page])
