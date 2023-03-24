@@ -89,15 +89,6 @@
 
     appearance: auto;
     writing-mode: horizontal-tb !important;
-    font-style: ;
-    font-variant-ligatures: ;
-    font-variant-caps: ;
-    font-variant-numeric: ;
-    font-variant-east-asian: ;
-    font-weight: ;
-    font-stretch: ;
-    font-size: ;
-    font-family: ;
     text-rendering: auto;
     color: buttontext;
     letter-spacing: normal;
@@ -118,4 +109,5 @@
     border-style: outset;
     border-color: buttonborder;
     border-image: initial;
+    text-decoration: auto;
 }
