@@ -36,8 +36,8 @@
     <% end %>
   </div>
   <div class="actions-pannel">
-    <%= button_to 'mark as need to learned', change_learned_status_path(book_id: params[:book_id], translation_id: books_translation2[:id], status: false ), method: :put if params[:learned] %>
-    <%= button_to 'mark as learned', change_learned_status_path(book_id: params[:book_id], translation_id: books_translation2[:id], status: true ), method: :put unless params[:learned] %>
+    <%= button_to 'mark as need to learned', change_learned_status_path(book_id: params[:book_id], translation_id: books_translation2[:id], status: false ), method: :put if params[:learned] == 'true' %>
+    <%= button_to 'mark as learned', change_learned_status_path(book_id: params[:book_id], translation_id: books_translation2[:id], status: true ), method: :put if params[:learned] == 'false' %>
     <%= button_to 'remove translation', remove_from_user_book_path(book_id: params[:book_id], translation_id: books_translation2[:id]), method: :delete, data: { confirm: 'Are you sure?' }  %>
     <%= link_to 'edit translation',translations_edit_path(user_id: @current_user.id, book_id: params[:book_id], translation_id: books_translation2[:id], learned: params[:learned], page: params[:page]), class: 'button2'%>
   </div>
