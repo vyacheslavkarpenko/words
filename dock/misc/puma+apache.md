@@ -46,7 +46,7 @@ Example /etc/apache2/sites-available/[app_name] .conf file
 
 ## Enable site and restart Apache ##
 ```
-sudo a2ensite site-1
+sudo a2ensite multisverbis
 apachectl -t
 sudo /etc/init.d/apache2 restart
 ```

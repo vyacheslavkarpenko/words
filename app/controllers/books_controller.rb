@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :book, only: %i[ show edit destroy ]
 
   # GET /users/:user_id/books
   def user_books
@@ -23,30 +24,30 @@ class BooksController < ApplicationController
 
     @books = build_books_tree(@user_books)
 # binding.pry
-
   end
 
   # GET /users/:user_id/books/:book_id
-  def show
-    # binding.pry
-    @book ||= Book.find_by(user_id: current_user._id, id: params[:books_id])
-  end
+  def show; end
 
   # GET /users/:user_id/books/new
   def new
-    # binding.pry
-    @book = Book.new
+    @book = Book.new()
   end
 
   # GET /users/:user_id/books/:book_id/edit
-  def edit
-    @book = Book.find_by(user_id: current_user._id, id: params[:books_id])
-  end
+  def edit; end
 
   # POST /users/:user_id/books
   def create
     # binding.pry
-    @book = Book.new(name: params[:book][:name], is_multi_language: params[:book][:is_multi_language], user_id: current_user.id, parent_id: params[:book][:parent_id])
+    @book = Book.new(
+      {
+        name: params[:book][:name],
+        is_multi_language: params[:book][:is_multi_language],
+        user_id: current_user.id,
+        parent_id: params[:book][:parent_id],
+        is_folder: params[:book][:parent_id]
+      })
     respond_to do |format|
       if @book.save
         format.html { redirect_to user_books_path(user_id: @current_user.id), notice: "Book was successfully created." }
@@ -61,9 +62,20 @@ class BooksController < ApplicationController
   # PUT /users/:user_id/books/:book_id
   def update
     # binding.pry
-    @book = Book.find_by(user_id: current_user._id, id: params[:book][:books_id])
+    @book = Book.find_by(
+      {
+        user_id: current_user._id,
+        id: params[:book][:books_id]
+      })
     respond_to do |format|
-      if @book.update(name: params[:book][:name], is_multi_language: params[:book][:is_multi_language], parent_id: params[:book][:parent_id])
+      updated_book = @book.update({
+        name: params[:book][:name],
+        is_multi_language: params[:book][:is_multi_language],
+        parent_id: params[:book][:parent_id],
+        is_folder: params[:book][:is_folder] == '1' ? true : false
+      })
+
+      if updated_book
         format.html { redirect_to user_books_path(user_id: @current_user.id), notice: "Book was successfully updated." }
         format.json { render :show, status: :created, location: @book }
       else
@@ -75,11 +87,9 @@ class BooksController < ApplicationController
 
   # DELETE /users/:user_id/books/:book_id
   def destroy
-    # binding.pry
-    book = Book.find_by(user_id: current_user._id, id: params[:books_id])
-
     respond_to do |format|
-      if book.destroy
+      binding.pry
+      if @book.destroy
         format.html { redirect_to user_books_path(user_id: @current_user.id), notice: "Book was successfully destroyed." }
         format.json { render :show, status: :deleted }
       else
@@ -93,7 +103,12 @@ class BooksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def book_params
-    params.require(:book).permit(:name, :user_id, :books_id, :is_multi_language, :parent_id)
+    params.require(:book).permit(:name, :user_id, :books_id, :is_multi_language, :parent_id, :is_folder)
+  end
+
+  def book
+    # binding.pry
+    @book ||= Book.find_by(user_id: current_user._id, id: params[:books_id])
   end
 
   def build_books_tree(books)
