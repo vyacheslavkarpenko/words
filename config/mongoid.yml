@@ -183,6 +183,17 @@ test:
           mode: :primary
         max_pool_size: 1
 
+staging:
+  clients:
+    default:
+      database: words_<%=ENV['WORDS_ENV']%>
+      hosts:
+        - localhost:27017
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+
 production:
   clients:
     default:
