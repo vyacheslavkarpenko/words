@@ -12,4 +12,4 @@
 2. Trash books before delete
 
 ## Deployed
-<!-- 19.03.2023 -->
+26.03.2023
