@@ -26,6 +26,8 @@ Rails.application.configure do
   config.serve_static_files = true
   config.assets.compile = true
   config.assets.digest = true
+  config.secret_key_base = '<%= ENV["SECRET_KEY_BASE"] %>'
+  # config.secret_key_base = 'secret-key-here'
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass

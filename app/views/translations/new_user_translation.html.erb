@@ -17,6 +17,22 @@
       </ul>
     </div>
   <% end %>
+    <fieldset>
+    <legend>Words to learn</legend>
+        <button class="favorite styled"
+          type="button"
+          onclick="addLearnedWord()">
+          Add
+        </button>
+        <div id='new_word_to_learn_0'>
+          <%= form.text_field 'learnedExpression', placeholder: 'learned expression', multiple: true, required: true %>
+          <%= form.text_field 'learnedTranscription', placeholder: 'learned transcription', multiple: true, required: true %>
+          <%= form.hidden_field 'learnedLanguage', value: @user_to_learn_language[:id]%>
+          <%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %>
+          <a href="JavaScript:removeWord('new_word_to_learn_0')">remove word</a>
+        </div>
+      <div id='new_word_to_learn'></div>
+    </fieldset>
     <fieldset id='new_native_word'>
       <legend>Native language words</legend>
         <button class="favorite styled"
@@ -33,23 +49,6 @@
           <a href="JavaScript:removeWord('native_word_0')">remove word</a>
         </div>
     </fieldset>
-   <fieldset>
-    <legend>Words to learn</legend>
-        <button class="favorite styled"
-          type="button"
-          onclick="addLearnedWord()">
-          Add
-        </button>
-        <div id='new_word_to_learn_0'>
-          <%= form.text_field 'learnedExpression', placeholder: 'learned expression', multiple: true, required: true %>
-          <%= form.text_field 'learnedTranscription', placeholder: 'learned transcription', multiple: true, required: true %>
-          <%= form.hidden_field 'learnedLanguage', value: @user_to_learn_language[:id]%>
-          <%= @user_to_learn_language[:name]%> <%= image_tag(@user_to_learn_language[:icon], size: "32x20", alt: "Language icon") %>
-          <a href="JavaScript:removeWord('new_word_to_learn_0')">remove word</a>
-        </div>
-      <div id='new_word_to_learn'></div>
-    </fieldset>
-
   <%= form.hidden_field :book_id, value: params[:book_id] %>
   <%= form.hidden_field :user_id, value: params[:user_id] %>
 

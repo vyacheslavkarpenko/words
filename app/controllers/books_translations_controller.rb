@@ -37,6 +37,7 @@ class BooksTranslationsController < ApplicationController
   # https://www.bearer.com/blog/infinite-scrolling-pagination-hotwire
   def books_translations
     # Pagination
+    # binding.pry
     limit = @current_account.translations_per_page
     @count = BookTranslation.where(book_id: params[:book_id], learned: params[:learned] || false).count
     @pages = (@count.to_f/limit).ceil

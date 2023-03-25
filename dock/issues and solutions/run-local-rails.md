@@ -76,3 +76,14 @@ location /assets/ {
 
 Ошибки прав доступа к папкам. Убедитесь, что папки public/assets и `
 ```
+
+ ### Помилка
+
+**`validate_secret_key_base': Missing `secret_key_base`**
+
+### Рішення
+
+додати до ```words_dev/words/config/environments/production.rb```
+```
+config.secret_key_base = '<%= ENV["SECRET_KEY_BASE"] %>'
+```

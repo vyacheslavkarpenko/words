@@ -22,6 +22,11 @@
   </div>
 
   <div>
+    <%= form.label :is_folder, style: "display: block" %>
+    <%= form.check_box :is_folder %>
+  </div>
+
+  <div>
       <%= form.label :parent_id, style: "display: block" %>
     <%= form.select :parent_id, Book.where(user_id: @current_user._id).map{|book| [book[:name], book[:id]] }, { include_blank: 'Select parent book if need.' } %>
   </div>

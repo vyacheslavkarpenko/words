@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
   def version
-    @version = 'Version-1.0.0'
+    @version = 'Version-1.0.1'
   end
   private
 
