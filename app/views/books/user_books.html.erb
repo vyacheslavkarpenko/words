@@ -1,8 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>user books</h1>
-
-<%= link_to 'ADD BOOK', new_boks_path(user_id: @current_user._id)%>
 <%# TODO %>
 <%# link_to 'TRASHED', new_boks_path(user_id: @current_user._id)%>
 
@@ -20,6 +18,19 @@
 <%# </div> %>
 
 <%# приховувати книги для іншої мови? %>
-<ul class='books-ul'>
-  <%= render 'book_tree', books: @books %>
-</ul>
+<div class="browser">
+  <div class="side-bar">
+    <%= link_to 'ADD BOOK', new_boks_path(user_id: @current_user._id)%>
+    <li>found</li>
+    <ul class="books-ul">
+      <%= render 'book_tree', books: @books %>
+    <%# <li>Vocabularies</li> %>
+    <li>Trash</li>
+    </ul>
+
+  </div>
+
+  <div class="books-navigator">
+    <%= render 'books_navigator', books: @books %>
+  </div>
+</div>

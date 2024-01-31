@@ -1,0 +1,8 @@
+.books-navigator {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navigation_object {
+  margin: 2%;
+}

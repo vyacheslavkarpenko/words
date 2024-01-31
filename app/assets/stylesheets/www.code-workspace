@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../.."
+		}
+	],
+	"settings": {
+		"java.project.sourcePaths": [
+			"words/dev/words/app/assets/stylesheets"
+		]
+	}
+}
