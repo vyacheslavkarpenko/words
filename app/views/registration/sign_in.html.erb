@@ -1,5 +1,6 @@
 <div>
   <h4>sign in</h4>
+  <% #binding.pry %>
   <%= form_with url: '/sign_in_complete', method: :post do |form| %>
     <div>
       <%= form.label :email, style: "display: block" %>
@@ -12,7 +13,7 @@
     </div>
 
     <div>
-      <%= form.submit %>
+      <%= form.submit 'Sign in' %>
     </div>
   <% end %>
 

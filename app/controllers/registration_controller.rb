@@ -2,12 +2,12 @@ class RegistrationController < ApplicationController
   before_action :check_registration, except: %i[sign_up sign_in sign_in_complete]
 
   def sign_up
-
-    @user = User.new
+    @user ||= User.new
   end
 
   def sign_in
     # binding.pry
+    @user
   end
 
   def sign_in_complete
@@ -25,5 +25,11 @@ class RegistrationController < ApplicationController
     session.delete(:email)
 
     redirect_to sign_in_path and return
+  end
+
+  private
+
+  def user
+    @user ||= User.new
   end
 end

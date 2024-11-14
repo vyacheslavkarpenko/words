@@ -1,5 +1,5 @@
 # ## Create Users
-# user = User.create(email: '1@1', password: '11')
+user = User.create(email: '1@1', password: '1')
 
 # ## Create Account
 # account = Account.create(user_id: user)

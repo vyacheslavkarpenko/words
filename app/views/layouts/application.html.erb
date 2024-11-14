@@ -7,18 +7,54 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', cache: false %>
     <%= javascript_importmap_tags %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
-<%# added for turbo %>
-    <%# stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%#  javascript_importmap_tags %>
-
   </head>
 
-  <body class="container mx-auto px-4">
-      <%= link_to "sign out", sign_out_path if session[:email] %>
+  <body>
+        <div class='top_navigation'>
+          <nav>
+            <ul>
+              <li>Sign out</li>
+              <li>Sign in</li>
+              <li>Sign up</li>
+            </ul>
+          </nav>
+        </div>
+        <div class='features_navigation'>
+          <div class='features_navigation_aside_placeholder'></div>
+          <nav>
+            <ul>
+              <li class="features_list_divider"></li>
+              <li class="features_list">Books</li>
+              <li class="features_list_divider"></li>
+              <li class="features_list">Bookmarks</li>
+              <li class="features_list_divider"></li>
+              <li class="features_list">Trash</li>
+              <li class="features_list_divider"></li>
+              <li class="features_list">Search history</li>
+              <li class="features_list_divider"></li>
+            </ul>
+          </nav>
+          <div class='features_navigation_aside_placeholder'></div>
+        </div>
+        <div class='action_navigation'>
+          <nav>
+            <ul>
+              <li>New book</li>
+              <li>New translation</li>
+            </ul>
+            <div class='action_navigation_aside_placeholder'>adasd</div>
+            <form>
+              <input type="text" id="fname" name="fname">
+              <input type="submit" value="Search">
+            </form>
+          </nav>
+        </div>
       <%- if @current_user %>
+        <%= image_tag("design/design.png") %>
+        <%= link_to "sign out", sign_out_path if session[:email] %>
         <div>
           | Email: <%= @current_user.email %> |
           <%= link_to "Need to do", todos_path%> |
