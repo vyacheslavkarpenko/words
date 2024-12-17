@@ -1,6 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.web_console.permissions = '192.168.50.1/16'
   config.after_initialize do
     # Change Mongoid log destination and/or level
     Mongoid.logger = Logger.new(STDERR).tap do |logger|

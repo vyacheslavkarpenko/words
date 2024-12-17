@@ -2,58 +2,123 @@
 <html>
   <head>
     <title>Words</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= stylesheet_link_tag 'application', cache: false %>
+
+    <%= stylesheet_link_tag 'mobail/application', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'mobail/application', cache: false %>
+
     <%= javascript_importmap_tags %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
         <div class='top_navigation'>
-          <nav>
-            <ul>
-              <li>Sign out</li>
-              <li>Sign in</li>
-              <li>Sign up</li>
-            </ul>
-          </nav>
+          <p>
+            Created as challenge help as tool!
+          </p>
+          <ul>
+            <li>Sign out</li>
+            <li>Sign in</li>
+            <li>Sign up</li>
+          </ul>
         </div>
+
         <div class='features_navigation'>
-          <div class='features_navigation_aside_placeholder'></div>
-          <nav>
-            <ul>
-              <li class="features_list_divider"></li>
-              <li class="features_list">Books</li>
-              <li class="features_list_divider"></li>
-              <li class="features_list">Bookmarks</li>
-              <li class="features_list_divider"></li>
-              <li class="features_list">Trash</li>
-              <li class="features_list_divider"></li>
-              <li class="features_list">Search history</li>
-              <li class="features_list_divider"></li>
-            </ul>
-          </nav>
-          <div class='features_navigation_aside_placeholder'></div>
+          <ul>
+            <li>Library</li>
+            <li>Bookmarks</li>
+            <li>Trash</li>
+            <li>History</li>
+          </ul>
         </div>
-        <div class='action_navigation'>
-          <nav>
-            <ul>
-              <li>New book</li>
-              <li>New translation</li>
-            </ul>
-            <div class='action_navigation_aside_placeholder'>adasd</div>
-            <form>
-              <input type="text" id="fname" name="fname">
-              <input type="submit" value="Search">
-            </form>
-          </nav>
+
+        <div class='main_actions'>
+          <ul>
+            <li>Book</li>
+            <li>Translation</li>
+          </ul>
+          <form>
+            <input type='text' name='word' value='some word'>
+            <input type='submit' value='Search'>
+          </form>
         </div>
+        <div class='current_info_bar'>
+          <p class='info'>/folder/subfolder/translation</p>
+          <p class='icon'>icon</p>
+        </div>
+        <div class='content'>
+          <div class='item'>
+            <div class='item_logo'>
+              <p>F</p>
+            </div>
+            <div class='item_name'>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            </div>
+          </div>
+
+          <div class='item'>
+            <div class='item_logo'>
+              <p>F</p>
+            </div>
+            <div class='item_name'>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            </div>
+          </div>
+
+          <div class='item'>
+            <div class='item_logo'>
+              <p>F</p>
+            </div>
+            <div class='item_name'>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            </div>
+          </div>
+
+          <div class='item'>
+            <div class='item_logo'>
+              <p>T</p>
+            </div>
+            <div class='item_name'>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            </div>
+          </div>
+
+          <div class='item'>
+            <div class='item_logo'>
+              <p>T</p>
+            </div>
+            <div class='item_name'>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            </div>
+          </div>
+        </div>
+        <div class='footter'>
+          <ul>
+            <li>Email: some.email@domain.com</li>
+            <li>help progect: 234234 24234234 234234234</li>
+            <li>phone: +380969490444</li>
+          </ul>
+          <p>c 2022 - 2024 Karpenko Vyacheslav </p>
+        </div>
+
       <%- if @current_user %>
-        <%= image_tag("design/design.png") %>
+        <% image_tag("design/design.png") %>
         <%= link_to "sign out", sign_out_path if session[:email] %>
         <div>
           | Email: <%= @current_user.email %> |

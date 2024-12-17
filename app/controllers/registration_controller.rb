@@ -7,7 +7,9 @@ class RegistrationController < ApplicationController
 
   def sign_in
     # binding.pry
-    @user
+    # @user
+
+    # p 'asdasdasd'
   end
 
   def sign_in_complete

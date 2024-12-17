@@ -48,6 +48,15 @@ class ApplicationController < ActionController::Base
   private
 
   def check_registration
-    redirect_to sign_in_path and return if session[:email].blank?
+
+
+    Rails.logger.info "Перевірка реєстрації для користувача: #{current_user}"
+    if current_user.nil?
+      # redirect_to sign_in_path
+      p session[:email]
+      redirect_to sign_in_path and return if session[:email].blank?
+    end
+    # p '-------------------'
+
   end
 end
